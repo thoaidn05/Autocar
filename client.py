@@ -14,7 +14,7 @@ port = 54321
   
 # connect to the server on local computer 
 s.connect(('127.0.0.1', port)) 
-
+last_time = 0
 count = 0
 angle = 10
 speed = 100
@@ -55,10 +55,14 @@ if __name__ == "__main__":
             imgage = cv2.imdecode(jpg_as_np, flags=1)
             cv2.imshow("IMG", imgage)
             print("Img Shape: ",imgage.shape)
+            
             #save image
-            # image_name = "./img/img_{}.jpg".format(count)
-            # count += 1
-            # cv2.imwrite(image_name, imgage)
+            # save 1 img / 3 second
+            if time.time() - last_time > 3:
+                last_time = time.time()
+                image_name = "./img/img_{}.jpg".format(count)
+                count += 1
+                cv2.imwrite(image_name, imgage)
             key = cv2.waitKey(1)
         
             
