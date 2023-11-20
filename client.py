@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 import json
 import base64
+from detectLane import *
 
 # Create a socket object 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
@@ -52,17 +53,19 @@ if __name__ == "__main__":
             #Img data recv from server
             jpg_original = base64.b64decode(data_recv["Img"])
             jpg_as_np = np.frombuffer(jpg_original, dtype=np.uint8)
-            imgage = cv2.imdecode(jpg_as_np, flags=1)
-            cv2.imshow("IMG", imgage)
-            print("Img Shape: ",imgage.shape)
+            image = cv2.imdecode(jpg_as_np, flags=1)
+            cv2.imshow("IMG", image)
+            print("Img Shape: ",image.shape)
             
             #save image
             # save 1 img / 3 second
             if time.time() - last_time > 3:
                 last_time = time.time()
+                _image_name = "./img/_img_{}.jpg".format(count)
                 image_name = "./img/img_{}.jpg".format(count)
                 count += 1
-                cv2.imwrite(image_name, imgage)
+                cv2.imwrite(_image_name, image)                
+                cv2.imwrite(image_name, frame_processor(image))
             key = cv2.waitKey(1)
         
             
