@@ -173,19 +173,11 @@ def frame_processor(image):
     cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) 
 	cv2.drawContours(image, contours, -1, (0, 255, 0), 3)
 
-
-	# Applying hough transform to get straight lines from our image 
-	# and find the lane lines
-	# Will explain Hough Transform in detail in further steps
 	hough = hough_transform(erosion)
-	#lastly we draw the lines on our resulting frame and return it as output 
 	result = draw_lane_lines(image, lane_lines(image, hough))
 	return image
 
-image_name = "./img/test.jpg"
-_image = cv2.imread('./img/_img_18.jpg')
-image = frame_processor(_image)
-cv2.imwrite(image_name, image)
-# y, x = image.shape[:2]
-# plt.imshow(image, cmap='gray',  interpolation='bilinear', extent=[0,1,0,1], aspect=y/x)
-# plt.show()
+# image_name = "./img/test.jpg"
+# _image = cv2.imread('./img/_img_18.jpg')
+# image = frame_processor(_image)
+# cv2.imwrite(image_name, image)
