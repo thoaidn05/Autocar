@@ -1,5 +1,23 @@
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
+
+def find_mid_lane(contours):
+    xlane = []
+    ylane = 55
+    if len(contours) == 2:
+        for cnt in contours:
+            for point in cnt:
+                x, y = point[0]
+                if y == ylane:
+                    xlane.append(x)
+    elif len(contours) < 2:
+        left_lane = left_lane
+        right_lane = right_lane
+        
+    left_lane = (xlane[0], ylane)
+    right_lane = (xlane[-1], ylane)
+    return left_lane, right_lane
 
 def frame_processor(image):
     image = image[200:,:]
@@ -35,11 +53,18 @@ def frame_processor(image):
     lane = cv2.bitwise_and(road_gray, road_gray, mask=erosion)
 
     contours, _ = cv2.findContours(lane, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    filtered_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 400]
-    cv2.drawContours(image, filtered_contours, 0, (0, 255, 0), 3)
-    return image
+    filtered_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 600]
+    left_lane, right_lane =find_mid_lane(filtered_contours)
+    cv2.drawContours(image, filtered_contours, -1, (0, 255, 0), 3)
 
-image_name = "./img/test.jpg"
-_image = cv2.imread('./img/_img_18.jpg')
-image = frame_processor(_image)
-cv2.imwrite(image_name, image)
+    return image, left_lane, right_lane
+
+# image_name = "./img/test.jpg"
+# _image = cv2.imread('./img/_img_18.jpg')
+# image, left_lane, right_lane = frame_processor(_image)
+# cv2.imwrite(image_name, image)
+
+# plt.imshow(image)
+# plt.scatter(left_lane[0], left_lane[1], color="red")
+# plt.scatter(right_lane[0], right_lane[1], color="red")
+# plt.show()
