@@ -182,10 +182,10 @@ def frame_processor(image):
 	result = draw_lane_lines(image, lane_lines(image, hough))
 	return image
 
-image_name = "./img/test.jpg"
-_image = cv2.imread('./img/_img_18.jpg')
-image = frame_processor(_image)
-cv2.imwrite(image_name, image)
+# image_name = "./img/test.jpg"
+# _image = cv2.imread('./img/_img_18.jpg')
+# image = frame_processor(_image)
+# cv2.imwrite(image_name, image)
 # y, x = image.shape[:2]
 # plt.imshow(image, cmap='gray',  interpolation='bilinear', extent=[0,1,0,1], aspect=y/x)
 # plt.show()
